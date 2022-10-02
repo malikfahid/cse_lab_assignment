@@ -1,37 +1,34 @@
 const generateToken = require('../utils/genToken')
 
 exports.getUser = (req, res, next) => {
-  var x = 5
-  var y = 6
-
-  const mul = x * y
-
-  console.log(req.father)
   const token = generateToken()
+  console.log(token);
+  console.log(req.Name);
 
   res.cookie('token', token, {
     httpOnly: true,
     secure: true,
     sameSite: 'none',
-    expires: new Date(Date.now() + 15 * 24 * 60 * 60 * 1000),
+    expires: new Date(Date.now() + 10 * 24 * 60 * 60 * 1000),
   })
 
   res.json({
     status: 'Done',
-    UNI: 'Islamic university of technology (IUT)',
+    Name: req.Name,
+    token: token
   })
+  next();
 }
 
-exports.getParents = (req, res, next) => {
-  var x = 5
-  var y = 6
+exports.usersData = (req, res, next)=>{
+  const getData = req.body;
+  console.log(getData);
+  res.json(getData)
+  next();
+}
 
-  req.father = 'Abul Kalam Azad'
-
+exports.getName = (req, res, next) => {
+  
+  req.Name = 'Malik Fahid'
   next()
-}
-
-exports.verifyToken = () => {
-  const token = []
-  const decoded = jwt.verify(token, '2r4u7x!A%D*G-KaP')
 }
